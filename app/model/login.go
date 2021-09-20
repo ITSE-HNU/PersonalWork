@@ -31,6 +31,5 @@ func (l *LoginModel) Login(username, password string) (*schema.LoginResponse, er
 	return &schema.LoginResponse{
 		Username: username,
 		RoleID:   (*result)[0].RoleID,
-		Role:     (*result)[0].Role.Name,
 	}, nil
 }

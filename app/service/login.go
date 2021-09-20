@@ -25,13 +25,22 @@ func (l *LoginService) Login() (*Current, error) {
 	}
 	result, err := l.LoginModel.Login(res[0], res[1])
 	if err != nil {
-		return nil, err
+		return nil, errors.New("incorrect password")
+	}
+	var roleName string
+	switch (*result).RoleID {
+	case 1:
+		roleName = "小学"
+	case 2:
+		roleName = "初中"
+	case 3:
+		roleName = "高中"
 	}
 
 	return &Current{
 		Username: (*result).Username,
 		RoleID:   (*result).RoleID,
-		Role:     (*result).Role,
+		Role:     roleName,
 		IsLogin:  true,
 	}, nil
 }

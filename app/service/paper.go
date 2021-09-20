@@ -2,22 +2,15 @@ package service
 
 import (
 	"gitee.com/itse/personal-work/app/model"
-	"gitee.com/itse/personal-work/app/util"
-	"strconv"
 )
 
 // GeneratePaper 根据用户 role 生成试卷 入口
-func GeneratePaper(role int) error {
-	line := util.GetInput()
-	count, err := strconv.Atoi(line)
-	if err != nil {
-		return err
-	}
+func GeneratePaper(username string, role int, count int) error {
 	verify, err := model.VerifyFactory(role)
 	if err != nil {
 		return err
 	}
-	err = verify.GeneratePaper(count)
+	err = verify.GeneratePaper(username, count)
 	if err != nil {
 		return err
 	}

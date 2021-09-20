@@ -1,0 +1,18 @@
+# 运行模式
+Mode: prod
+
+GORM:
+  # 是否开启调试模式
+  Debug: false
+  # 设置连接可以重用的最长时间(单位：秒)
+  MaxLifetime: 7200
+  # 设置数据库的最大打开连接数
+  MaxOpenConns: 150
+  # 设置空闲连接池中的最大连接数
+  MaxIdleConns: 50
+  # 是否启用自动映射数据库表结构
+  EnableAutoMigrate: true
+
+DB:
+  # 数据库
+  DBName: test.db

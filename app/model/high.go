@@ -8,7 +8,7 @@ func HighGenerateWithTrigonometric() string {
 	var num = randGenerator.Intn(13)
 	var index = randGenerator.Intn(3)
 	if index == 0 && num%6 == 0 {
-		return "(" + highOperator[index+1] + strconv.Itoa(num*15) + ")" + baseOperator[tmp]
+		return highOperator[index+1] + strconv.Itoa(num*15) + baseOperator[tmp]
 	}
-	return "(" + highOperator[index] + strconv.Itoa(num*15) + ")" + baseOperator[tmp]
+	return highOperator[index] + strconv.Itoa(num*15) + baseOperator[tmp]
 }

@@ -18,4 +18,3 @@ func GetInput() string {
 	}
 	return string(str)
 }
-

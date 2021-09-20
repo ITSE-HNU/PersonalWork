@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// SaveTxt 保存 Paper 为 txt
 func SaveTxt(params schema.Paper) error {
 	_, err := PathExists("paperResult")
 	if err != nil {
@@ -40,7 +41,7 @@ func SaveTxt(params schema.Paper) error {
 	return nil
 }
 
-//PathExists 判断文件夹是否存在
+// PathExists 判断文件夹是否存在
 func PathExists(path string) (bool, error) {
 	_, err := os.Stat(path)
 	if err == nil {

@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// GetInput 输入封装
 func GetInput() string {
 	//使用os.Stdin开启输入流
 	//函数原型 func NewReader(rd io.Reader) *Reader

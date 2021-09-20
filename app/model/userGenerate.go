@@ -10,18 +10,16 @@ import (
 	"time"
 )
 
+// IPaper 生成接口 多态实现
 type IPaper interface {
 	GeneratePaper(count int) error
 }
 
+// Primary 小学操作结构体
 type Primary struct {
 }
 
-var baseOperator = []string{"+", "-", "*", "/", "()"}
-var juniorOperator = []string{"(square)", "^2"}
-var highOperator = []string{"tan", "sin", "cos"}
-var finalOperator = "="
-
+// GeneratePaper 小学生成
 func (p *Primary) GeneratePaper(count int) error {
 	var ans schema.Paper
 	var randGenerator = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -53,20 +51,25 @@ func (p *Primary) GeneratePaper(count int) error {
 	return nil
 }
 
+// Junior 初中操作结构体
 type Junior struct {
 }
 
+// GeneratePaper 初中生成
 func (j *Junior) GeneratePaper(count int) error {
 	return nil
 }
 
+// High 高中操作结构体
 type High struct {
 }
 
+// GeneratePaper 高中生成
 func (h *High) GeneratePaper(count int) error {
 	return nil
 }
 
+// VerifyFactory 动态工厂
 func VerifyFactory(role int) (IPaper, error) {
 	if role == 0 {
 		return nil, errors.New("参数错误")

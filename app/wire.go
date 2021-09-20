@@ -11,6 +11,7 @@ import (
 	"github.com/google/wire"
 )
 
+// BuildInjector 依赖注入
 func BuildInjector() (*App, func(), error) {
 	wire.Build(
 		config.InitConfig,

@@ -132,6 +132,7 @@ func (a *App) ConfirmDB() error {
 	return nil
 }
 
+// Run 运行
 func Run() {
 	config.InitConfig()
 	a, _, err := BuildInjector()

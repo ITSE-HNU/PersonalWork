@@ -8,12 +8,15 @@ import (
 	"strings"
 )
 
-var LoginModelSet = wire.NewSet(wire.Struct(new(LoginService), "*"))
+// LoginServiceSet Login DI
+var LoginServiceSet = wire.NewSet(wire.Struct(new(LoginService), "*"))
 
+// LoginService 登录结构体
 type LoginService struct {
 	LoginModel *model.LoginModel
 }
 
+// Login 登录入口
 func (l *LoginService) Login() (*Current, error) {
 	line := util.GetInput()
 	res := strings.Split(line, " ")

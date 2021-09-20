@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// GeneratePaper 根据用户 role 生成试卷 入口
 func GeneratePaper(role int) error {
 	line := util.GetInput()
 	count, err := strconv.Atoi(line)

@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// UserDaoSet 注入 DI
 var UserDaoSet = wire.NewSet(wire.Struct(new(UserDao), "*"))
 
 // UserDao users 表相关的数据库操作

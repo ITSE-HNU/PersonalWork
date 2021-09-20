@@ -2,6 +2,7 @@ package entity
 
 import "gorm.io/gorm"
 
+// User 用户信息表
 type User struct {
 	gorm.Model
 	Username string `gorm:"column:username;type:varchar(255);not null"`

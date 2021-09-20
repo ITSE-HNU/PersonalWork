@@ -73,8 +73,12 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 			tmpNum = randGenerator.Intn(Operand-2) + 1
 		}
 		var index []int
-		for k := 0; k < tmpNum; k++ {
-			index = append(index, randGenerator.Intn(Operand-1))
+		for k := 0; k < tmpNum; {
+			tmp := randGenerator.Intn(Operand - 1)
+			if !util.IsContain(index, tmp) {
+				index = append(index, tmp)
+				k++
+			}
 		}
 		for j := 0; j < Operand-1; {
 			if util.IsContain(index, j) {
@@ -95,9 +99,11 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 				j = j + 1
 				continue
 			}
-			res := BaseGenerateWithBrackets()
-			title = title + res
-			j = j + 2
+			if !util.IsContain(index, j+1) {
+				res := BaseGenerateWithBrackets()
+				title = title + res
+				j = j + 2
+			}
 		}
 		res := BaseGenerateFinal()
 		title = title + res
@@ -138,8 +144,12 @@ func (h *High) GeneratePaper(username string, count int) error {
 			tmpNum = randGenerator.Intn(Operand-2) + 1
 		}
 		var index []int
-		for k := 0; k < tmpNum; k++ {
-			index = append(index, randGenerator.Intn(Operand-1))
+		for k := 0; k < tmpNum; {
+			tmp := randGenerator.Intn(Operand - 1)
+			if !util.IsContain(index, tmp) {
+				index = append(index, tmp)
+				k++
+			}
 		}
 		for j := 0; j < Operand-1; {
 			if util.IsContain(index, j) {
@@ -154,9 +164,11 @@ func (h *High) GeneratePaper(username string, count int) error {
 				j = j + 1
 				continue
 			}
-			res := BaseGenerateWithBrackets()
-			title = title + res
-			j = j + 2
+			if !util.IsContain(index, j+1) {
+				res := BaseGenerateWithBrackets()
+				title = title + res
+				j = j + 2
+			}
 		}
 		res := BaseGenerateFinal()
 		title = title + res

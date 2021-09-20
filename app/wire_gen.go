@@ -13,6 +13,7 @@ import (
 
 // Injectors from wire.go:
 
+// BuildInjector 依赖注入
 func BuildInjector() (*App, func(), error) {
 	db, err := InitGorm()
 	if err != nil {

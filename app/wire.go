@@ -1,10 +1,9 @@
 //go:generate wire
-//+build wire inject
+//+build wireinject
 
 package app
 
 import (
-	"gitee.com/itse/personal-work/app/config"
 	"gitee.com/itse/personal-work/app/dao"
 	"gitee.com/itse/personal-work/app/model"
 	"gitee.com/itse/personal-work/app/service"
@@ -14,7 +13,6 @@ import (
 // BuildInjector 依赖注入
 func BuildInjector() (*App, func(), error) {
 	wire.Build(
-		config.InitConfig,
 		InitGorm,
 		service.WireServiceSet,
 		model.WireModelSet,

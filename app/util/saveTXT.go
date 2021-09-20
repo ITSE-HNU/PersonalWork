@@ -8,13 +8,17 @@ import (
 )
 
 // SaveTxt 保存 Paper 为 txt
-func SaveTxt(params schema.Paper) error {
+func SaveTxt(username string, params schema.Paper) error {
 	_, err := PathExists("paperResult")
 	if err != nil {
 		return err
 	}
+	_, err = PathExists("paperResult/" + username)
+	if err != nil {
+		return err
+	}
 	//以追加模式打开文件，当文件不存在时生成文件
-	txt, err := os.OpenFile("./paperResult/"+params.Name+".txt", os.O_APPEND|os.O_CREATE, 0666)
+	txt, err := os.OpenFile("./paperResult/"+username+"/"+params.Name+".txt", os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}
@@ -32,6 +36,7 @@ func SaveTxt(params schema.Paper) error {
 			return err
 		}
 	}
+	//return txt.Close()
 	defer func(txt *os.File) {
 		err := txt.Close()
 		if err != nil {

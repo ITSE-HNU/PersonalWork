@@ -29,7 +29,6 @@ func (p *Primary) GeneratePaper(count int) error {
 		for j := 0; j < Operand-1; j++ {
 			var tmp = randGenerator.Intn(4)
 			var num = randGenerator.Intn(100) + 1
-			fmt.Println(num)
 			title = title + strconv.Itoa(num) + baseOperator[tmp]
 		}
 		var num = randGenerator.Intn(100) + 1

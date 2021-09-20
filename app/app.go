@@ -5,8 +5,10 @@ import (
 	"gitee.com/itse/personal-work/app/config"
 	"gitee.com/itse/personal-work/app/entity"
 	"gitee.com/itse/personal-work/app/service"
+	"gitee.com/itse/personal-work/app/util"
 	"github.com/google/wire"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 var WireAppSet = wire.NewSet(wire.Struct(new(App), "*"))
@@ -143,26 +145,88 @@ func Run() {
 	if err != nil {
 		return
 	}
-	var currentUser = service.Current{
-		Username: "",
-		RoleID:   0,
-		Role:     "",
-		IsLogin:  false,
-	}
-	for !currentUser.IsLogin {
-		current, err := a.Login.Login()
-		if err != nil {
-			fmt.Println("登录失败")
-			return
+	for {
+		var currentUser = service.Current{
+			Username: "",
+			RoleID:   0,
+			Role:     "",
+			IsLogin:  false,
 		}
-		currentUser.Username = current.Username
-		currentUser.Role = current.Role
-		currentUser.RoleID = current.RoleID
-		current.IsLogin = true
-		break
-	}
-	err = service.GeneratePaper(currentUser.RoleID)
-	if err != nil {
-		return
+		isFirst := true
+		fmt.Println("请输入用户名、密码 (以空格隔开)")
+		for !currentUser.IsLogin {
+			if !isFirst {
+				fmt.Println("请输入正确的用户名、密码")
+			}
+			current, err := a.Login.Login()
+			if err != nil {
+				fmt.Println("登录失败")
+				isFirst = false
+				continue
+			}
+			currentUser.Username = current.Username
+			currentUser.Role = current.Role
+			currentUser.RoleID = current.RoleID
+			currentUser.IsLogin = true
+			fmt.Println("登录成功！")
+			break
+		}
+
+		isFailed := false
+		isChanged := false
+		isCheckFailed := false
+	v1:
+		for {
+			if !isFailed && !isChanged && !isCheckFailed {
+				fmt.Printf("准备生成%s数学题目，请输入生成题目数量(输入-1将退出当前用户，重新登录):\n", currentUser.Role)
+				fmt.Println("题目数量的有效输入范围是 10 - 30")
+			}
+			if isFailed {
+				fmt.Println("题目数量的有效输入范围是 10 - 30")
+				fmt.Println("请重新输入")
+			}
+			if isChanged && !isFailed {
+				fmt.Printf("准备生成%s数学题目，请输入生成题目数量\n", currentUser.Role)
+			}
+			if isCheckFailed {
+				fmt.Println("请输入小学、初中和高中三个选项中的一个")
+				fmt.Println("例: 切换为小学")
+			}
+			line := util.GetInput()
+			id, mode, err := util.CheckMode(line)
+			if err != nil {
+				panic(err.Error())
+			}
+			if id == 4 {
+				isCheckFailed = true
+				isFailed = false
+				continue
+			}
+			if id != -1 && id != 0 {
+				currentUser.RoleID = id
+				currentUser.Role = mode
+				isChanged = true
+				isFailed = false
+				isCheckFailed = false
+				fmt.Println("成功切换为" + mode)
+				continue
+			}
+			count, err := strconv.Atoi(line)
+			if count == -1 {
+				isCheckFailed = false
+				break v1
+			}
+			if count < 10 || count > 30 {
+				isFailed = true
+				isCheckFailed = false
+				continue
+			}
+			err = service.GeneratePaper(currentUser.Username, currentUser.RoleID, count)
+			if err != nil {
+				panic(err.Error())
+			}
+			isFailed = false
+			isCheckFailed = false
+		}
 	}
 }

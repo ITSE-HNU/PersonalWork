@@ -106,6 +106,12 @@ go mod download
 
 > PS: `PATH` 系统环境变量中必须存在 `GOROOT`
 
+#### 依赖注入
+
+```shell
+wire ./app
+```
+
 #### 运行
 
 ```shell

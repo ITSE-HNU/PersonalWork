@@ -56,9 +56,9 @@ ProjectFile # 项目文件夹
 │  │      service.go # service 控制DI
 │  └─util # 抽象工具
 │          input.go # 输入封装
-│          judge.go # 数组去重
+│          repeat.go # 数组去重
 │          match.go # 输入验证
-│          saveTXT.go # 数据保存
+│          storage.go # 数据保存
 └─paperResult # 生成结果保存
     ├─user # 用户名
     │      *.txt # 生成文件  时间命名

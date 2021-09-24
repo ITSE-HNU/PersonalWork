@@ -22,8 +22,8 @@ func (p *Primary) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
 	for i := 0; i < count; i++ {
 		var title string
-		var Operand = randGenerator.Intn(4) + 2
-		for j := 0; j < Operand-1; {
+		var operandCount = randGenerator.Intn(4) + 2
+		for j := 0; j < operandCount-1; {
 			if randGenerator.Intn(5) != 4 {
 				res := BaseGenerateCommon()
 				title = title + res
@@ -65,22 +65,22 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
 	for i := 0; i < count; i++ {
 		var title string
-		var Operand = randGenerator.Intn(4) + 2
-		var tmpNum = 0
-		if Operand <= 2 {
-			tmpNum = 1
+		var operandCount = randGenerator.Intn(4) + 2
+		var specialCount = 0
+		if operandCount <= 2 {
+			specialCount = 1
 		} else {
-			tmpNum = randGenerator.Intn(Operand-2) + 1
+			specialCount = randGenerator.Intn(operandCount-2) + 1
 		}
 		var index []int
-		for k := 0; k < tmpNum; {
-			tmp := randGenerator.Intn(Operand - 1)
-			if !util.IsContain(index, tmp) {
-				index = append(index, tmp)
+		for k := 0; k < specialCount; {
+			tmpIndex := randGenerator.Intn(operandCount - 1)
+			if !util.IsContain(index, tmpIndex) {
+				index = append(index, tmpIndex)
 				k++
 			}
 		}
-		for j := 0; j < Operand-1; {
+		for j := 0; j < operandCount-1; {
 			if util.IsContain(index, j) {
 				if randGenerator.Intn(10)%2 == 0 {
 					res := JuniorGenerateSquare()
@@ -136,22 +136,22 @@ func (h *High) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
 	for i := 0; i < count; i++ {
 		var title string
-		var Operand = randGenerator.Intn(4) + 2
-		var tmpNum = 0
-		if Operand <= 2 {
-			tmpNum = 1
+		var operandCount = randGenerator.Intn(4) + 2
+		var tmpIndex = 0
+		if operandCount <= 2 {
+			tmpIndex = 1
 		} else {
-			tmpNum = randGenerator.Intn(Operand-2) + 1
+			tmpIndex = randGenerator.Intn(operandCount-2) + 1
 		}
 		var index []int
-		for k := 0; k < tmpNum; {
-			tmp := randGenerator.Intn(Operand - 1)
+		for k := 0; k < tmpIndex; {
+			tmp := randGenerator.Intn(operandCount - 1)
 			if !util.IsContain(index, tmp) {
 				index = append(index, tmp)
 				k++
 			}
 		}
-		for j := 0; j < Operand-1; {
+		for j := 0; j < operandCount-1; {
 			if util.IsContain(index, j) {
 				res := HighGenerateWithTrigonometric()
 				title = title + res

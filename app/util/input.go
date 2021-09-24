@@ -3,6 +3,7 @@ package util
 import (
 	"bufio"
 	"os"
+	"strings"
 )
 
 // GetInput 输入封装
@@ -17,5 +18,6 @@ func GetInput() string {
 	if err != nil {
 		return err.Error()
 	}
-	return string(str)
+	// 去除前后空格
+	return strings.TrimSpace(string(str))
 }

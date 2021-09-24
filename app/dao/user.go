@@ -14,14 +14,28 @@ type UserDao struct {
 	DB *gorm.DB
 }
 
+// RoleResponse 角色返回结构体
+type RoleResponse struct {
+	ID   int
+	Name string
+}
+
+// UserDaoResponse dao 层用户查询返回
+type UserDaoResponse struct {
+	Username string
+	Password string
+	RoleID   int
+	Role     RoleResponse
+}
+
 // Query 根据username查询用户
-func (u *UserDao) Query(username string) (*[]entity.User, error) {
-	result := new([]entity.User)
+func (u *UserDao) Query(username string) (*[]UserDaoResponse, error) {
+	result := new([]UserDaoResponse)
 	db := u.DB.Model(&entity.User{})
 
 	db = db.Where("username = ?", username)
 
-	err := db.Find(result).Error
+	err := db.Joins("Role").Find(result).Error
 	if err != nil {
 		return nil, err
 	}

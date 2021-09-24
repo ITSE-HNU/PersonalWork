@@ -8,5 +8,5 @@ type User struct {
 	Username string `gorm:"column:username;type:varchar(255);not null"`
 	Password string `gorm:"column:password;type:varchar(255);not null"`
 	RoleID   int    `gorm:"not null"`
-	Role     Role
+	Role     Role   `gorm:"foreignKey:RoleID"`
 }

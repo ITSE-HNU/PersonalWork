@@ -5,8 +5,10 @@ import (
 	"github.com/google/wire"
 )
 
+// PaperServiceSet PaperService 注入 DI
 var PaperServiceSet = wire.NewSet(wire.Struct(new(PaperService), "*"))
 
+// PaperService 试卷生成入口
 type PaperService struct {
 	PaperModel *model.PaperModel
 }

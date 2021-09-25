@@ -11,8 +11,10 @@ import (
 	"strconv"
 )
 
+// WireAppSet AppInjector for Wire DI
 var WireAppSet = wire.NewSet(wire.Struct(new(App), "*"))
 
+// App app 操作结构体
 type App struct {
 	DB           *gorm.DB
 	Login        *service.LoginService
@@ -106,7 +108,7 @@ func (a *App) DbSourceInit() error {
 	return nil
 }
 
-//ConfirmDB 查验数据库种是否有数据
+// ConfirmDB 查验数据库种是否有数据
 func (a *App) ConfirmDB() error {
 	db := a.DB.Model(&entity.Role{})
 	roleRes := new([]entity.Role)

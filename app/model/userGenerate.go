@@ -10,8 +10,10 @@ import (
 	"time"
 )
 
+// PaperModelSet PaperModel 注入 DI
 var PaperModelSet = wire.NewSet(wire.Struct(new(PaperModel), "*"))
 
+// PaperModel 试卷生成操作结构体
 type PaperModel struct {
 	TitleDao *dao.TitleDao
 }
@@ -79,6 +81,7 @@ func (p *Primary) GeneratePaper(username string, count int) error {
 	return nil
 }
 
+// JudgeContains 小学查重
 func (p *Primary) JudgeContains(content string) (bool, error) {
 	res, err := p.TitleDao.Query(dao.TitleDealParams{
 		Content: content,
@@ -175,6 +178,7 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 	return nil
 }
 
+// JudgeContains 初中查重
 func (j *Junior) JudgeContains(content string) (bool, error) {
 	res, err := j.TitleDao.Query(dao.TitleDealParams{
 		Content: content,
@@ -265,6 +269,7 @@ func (h *High) GeneratePaper(username string, count int) error {
 	return nil
 }
 
+// JudgeContains 高中查重
 func (h *High) JudgeContains(content string) (bool, error) {
 	res, err := h.TitleDao.Query(dao.TitleDealParams{
 		Content: content,

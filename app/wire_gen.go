@@ -28,9 +28,19 @@ func BuildInjector() (*App, func(), error) {
 	loginService := &service.LoginService{
 		LoginModel: loginModel,
 	}
+	titleDao := &dao.TitleDao{
+		DB: db,
+	}
+	paperModel := &model.PaperModel{
+		TitleDao: titleDao,
+	}
+	paperService := &service.PaperService{
+		PaperModel: paperModel,
+	}
 	app := &App{
-		DB:    db,
-		Login: loginService,
+		DB:           db,
+		Login:        loginService,
+		PaperService: paperService,
 	}
 	return app, func() {
 	}, nil

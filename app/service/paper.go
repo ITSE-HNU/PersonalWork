@@ -2,11 +2,18 @@ package service
 
 import (
 	"gitee.com/itse/personal-work/app/model"
+	"github.com/google/wire"
 )
 
+var PaperServiceSet = wire.NewSet(wire.Struct(new(PaperService), "*"))
+
+type PaperService struct {
+	PaperModel *model.PaperModel
+}
+
 // GeneratePaper 根据用户 role 生成试卷 入口
-func GeneratePaper(username string, role int, count int) error {
-	verify, err := model.VerifyFactory(role)
+func (p *PaperService) GeneratePaper(username string, role int, count int) error {
+	verify, err := p.PaperModel.VerifyFactory(role)
 	if err != nil {
 		return err
 	}

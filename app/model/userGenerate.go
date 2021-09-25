@@ -3,18 +3,28 @@ package model
 import (
 	"errors"
 	"fmt"
+	"gitee.com/itse/personal-work/app/dao"
 	"gitee.com/itse/personal-work/app/schema"
 	"gitee.com/itse/personal-work/app/util"
+	"github.com/google/wire"
 	"time"
 )
+
+var PaperModelSet = wire.NewSet(wire.Struct(new(PaperModel), "*"))
+
+type PaperModel struct {
+	TitleDao *dao.TitleDao
+}
 
 // IPaper 生成接口 多态实现
 type IPaper interface {
 	GeneratePaper(username string, count int) error
+	JudgeContains(content string) (bool, error)
 }
 
 // Primary 小学操作结构体
 type Primary struct {
+	TitleDao *dao.TitleDao
 }
 
 // GeneratePaper 小学生成
@@ -22,7 +32,7 @@ func (p *Primary) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
 	for i := 0; i < count; i++ {
 		var title string
-		var operandCount = randGenerator.Intn(4) + 2
+		var operandCount = randGenerator.Intn(3) + 2
 		for j := 0; j < operandCount-1; {
 			if randGenerator.Intn(5) != 4 {
 				res := BaseGenerateCommon()
@@ -56,8 +66,13 @@ func (p *Primary) GeneratePaper(username string, count int) error {
 	return nil
 }
 
+func (p *Primary) JudgeContains(content string) (bool, error) {
+	return false, nil
+}
+
 // Junior 初中操作结构体
 type Junior struct {
+	TitleDao *dao.TitleDao
 }
 
 // GeneratePaper 初中生成
@@ -65,7 +80,7 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
 	for i := 0; i < count; i++ {
 		var title string
-		var operandCount = randGenerator.Intn(4) + 2
+		var operandCount = randGenerator.Intn(3) + 2
 		var specialCount = 0
 		if operandCount <= 2 {
 			specialCount = 1
@@ -127,8 +142,13 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 	return nil
 }
 
+func (j *Junior) JudgeContains(content string) (bool, error) {
+	return false, nil
+}
+
 // High 高中操作结构体
 type High struct {
+	TitleDao *dao.TitleDao
 }
 
 // GeneratePaper 高中生成
@@ -136,7 +156,7 @@ func (h *High) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
 	for i := 0; i < count; i++ {
 		var title string
-		var operandCount = randGenerator.Intn(4) + 2
+		var operandCount = randGenerator.Intn(3) + 2
 		var tmpIndex = 0
 		if operandCount <= 2 {
 			tmpIndex = 1
@@ -192,16 +212,26 @@ func (h *High) GeneratePaper(username string, count int) error {
 	return nil
 }
 
+func (h *High) JudgeContains(content string) (bool, error) {
+	return false, nil
+}
+
 // VerifyFactory 动态工厂
-func VerifyFactory(role int) (IPaper, error) {
+func (p *PaperModel) VerifyFactory(role int) (IPaper, error) {
 	if role == 0 {
 		return nil, errors.New("参数错误")
 	}
 	if role == 1 {
-		return &Primary{}, nil
+		return &Primary{
+			TitleDao: p.TitleDao,
+		}, nil
 	}
 	if role == 2 {
-		return &Junior{}, nil
+		return &Junior{
+			TitleDao: p.TitleDao,
+		}, nil
 	}
-	return &High{}, nil
+	return &High{
+		TitleDao: p.TitleDao,
+	}, nil
 }

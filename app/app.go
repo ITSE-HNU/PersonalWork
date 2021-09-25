@@ -14,8 +14,9 @@ import (
 var WireAppSet = wire.NewSet(wire.Struct(new(App), "*"))
 
 type App struct {
-	DB    *gorm.DB
-	Login *service.LoginService
+	DB           *gorm.DB
+	Login        *service.LoginService
+	PaperService *service.PaperService
 }
 
 // DbSourceInit 初始化数据库
@@ -221,7 +222,7 @@ func Run() {
 				isCheckFailed = false
 				continue
 			}
-			err = service.GeneratePaper(currentUser.Username, currentUser.RoleID, count)
+			err = a.PaperService.GeneratePaper(currentUser.Username, currentUser.RoleID, count)
 			if err != nil {
 				panic(err.Error())
 			}

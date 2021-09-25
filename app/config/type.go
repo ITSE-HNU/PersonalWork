@@ -1,3 +1,4 @@
+// Package config 配置文件生成
 package config
 
 import "fmt"

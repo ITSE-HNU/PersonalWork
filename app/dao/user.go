@@ -1,3 +1,4 @@
+// Package dao 数据库操作层
 package dao
 
 import (

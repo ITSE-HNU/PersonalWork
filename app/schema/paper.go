@@ -1,3 +1,4 @@
+// Package schema 参数封装（数据表映射）
 package schema
 
 // Topic 题目结构体

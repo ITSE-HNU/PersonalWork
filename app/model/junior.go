@@ -1,3 +1,4 @@
+// Package model 逻辑处理层
 package model
 
 import "strconv"

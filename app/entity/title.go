@@ -1,3 +1,4 @@
+// Package entity 实体（数据表）定义层
 package entity
 
 import "gorm.io/gorm"

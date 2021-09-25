@@ -1,3 +1,4 @@
+// Package app 应用封装层
 package app
 
 import (

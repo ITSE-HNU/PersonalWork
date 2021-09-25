@@ -1,5 +1,7 @@
-/test.db
+/backup/test.db
 /*.exe
 /.idea
 /paperResult
 /*.pdf
+/backup/
+/test.db

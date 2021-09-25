@@ -30,7 +30,7 @@ type Primary struct {
 // GeneratePaper 小学生成
 func (p *Primary) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
-	for i := 0; i < count; i++ {
+	for i := 0; i < count; {
 		var title string
 		var operandCount = randGenerator.Intn(3) + 2
 		for j := 0; j < operandCount-1; {
@@ -46,10 +46,23 @@ func (p *Primary) GeneratePaper(username string, count int) error {
 		}
 		res := BaseGenerateFinal()
 		title = title + res
-		ans.Topic = append(ans.Topic, schema.Topic{
-			ID:    i + 1,
-			Title: title,
-		})
+		judge, err := p.JudgeContains(title)
+		if err != nil {
+			return err
+		}
+		if !judge {
+			if err := p.TitleDao.Create(dao.TitleDealParams{
+				Content: title,
+				RoleID:  1,
+			}); err != nil {
+				return err
+			}
+			ans.Topic = append(ans.Topic, schema.Topic{
+				ID:    i + 1,
+				Title: title,
+			})
+			i++
+		}
 	}
 	ans.Name = fmt.Sprintf("%v-%v-%v-%v-%v-%v",
 		time.Now().Year(),
@@ -67,7 +80,14 @@ func (p *Primary) GeneratePaper(username string, count int) error {
 }
 
 func (p *Primary) JudgeContains(content string) (bool, error) {
-	return false, nil
+	res, err := p.TitleDao.Query(dao.TitleDealParams{
+		Content: content,
+		RoleID:  1,
+	})
+	if err != nil {
+		return false, err
+	}
+	return len(*res) != 0, nil
 }
 
 // Junior 初中操作结构体
@@ -78,7 +98,7 @@ type Junior struct {
 // GeneratePaper 初中生成
 func (j *Junior) GeneratePaper(username string, count int) error {
 	var ans schema.Paper
-	for i := 0; i < count; i++ {
+	for i := 0; i < count; {
 		var title string
 		var operandCount = randGenerator.Intn(3) + 2
 		var specialCount = 0
@@ -122,10 +142,23 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 		}
 		res := BaseGenerateFinal()
 		title = title + res
-		ans.Topic = append(ans.Topic, schema.Topic{
-			ID:    i + 1,
-			Title: title,
-		})
+		judge, err := j.JudgeContains(title)
+		if err != nil {
+			return err
+		}
+		if !judge {
+			if err := j.TitleDao.Create(dao.TitleDealParams{
+				Content: title,
+				RoleID:  2,
+			}); err != nil {
+				return err
+			}
+			ans.Topic = append(ans.Topic, schema.Topic{
+				ID:    i + 1,
+				Title: title,
+			})
+			i++
+		}
 	}
 	ans.Name = fmt.Sprintf("%v-%v-%v-%v-%v-%v",
 		time.Now().Year(),
@@ -143,7 +176,14 @@ func (j *Junior) GeneratePaper(username string, count int) error {
 }
 
 func (j *Junior) JudgeContains(content string) (bool, error) {
-	return false, nil
+	res, err := j.TitleDao.Query(dao.TitleDealParams{
+		Content: content,
+		RoleID:  1,
+	})
+	if err != nil {
+		return false, err
+	}
+	return len(*res) != 0, nil
 }
 
 // High 高中操作结构体
@@ -192,10 +232,23 @@ func (h *High) GeneratePaper(username string, count int) error {
 		}
 		res := BaseGenerateFinal()
 		title = title + res
-		ans.Topic = append(ans.Topic, schema.Topic{
-			ID:    i + 1,
-			Title: title,
-		})
+		judge, err := h.JudgeContains(title)
+		if err != nil {
+			return err
+		}
+		if !judge {
+			if err := h.TitleDao.Create(dao.TitleDealParams{
+				Content: title,
+				RoleID:  3,
+			}); err != nil {
+				return err
+			}
+			ans.Topic = append(ans.Topic, schema.Topic{
+				ID:    i + 1,
+				Title: title,
+			})
+			i++
+		}
 	}
 	ans.Name = fmt.Sprintf("%v-%v-%v-%v-%v-%v",
 		time.Now().Year(),
@@ -213,7 +266,14 @@ func (h *High) GeneratePaper(username string, count int) error {
 }
 
 func (h *High) JudgeContains(content string) (bool, error) {
-	return false, nil
+	res, err := h.TitleDao.Query(dao.TitleDealParams{
+		Content: content,
+		RoleID:  2,
+	})
+	if err != nil {
+		return false, err
+	}
+	return len(*res) != 0, nil
 }
 
 // VerifyFactory 动态工厂
